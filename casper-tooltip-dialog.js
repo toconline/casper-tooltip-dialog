@@ -5,7 +5,6 @@
  * @customElement
  * @polymer
  */
-import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 import { IronOverlayBehavior } from '@polymer/iron-overlay-behavior/iron-overlay-behavior.js';
@@ -46,6 +45,7 @@ class CasperTooltipDialog extends mixinBehaviors(IronOverlayBehavior, PolymerEle
           padding: 6px 12px;
           display: flex;
           flex-direction: row;
+          justify-content: space-evenly;
         }
 
       </style>
@@ -104,11 +104,16 @@ class CasperTooltipDialog extends mixinBehaviors(IronOverlayBehavior, PolymerEle
     }
   }
 
+  get target () {
+    return this.__target;
+  }
+
   ready () {
     super.ready();
     this._canvas = this.$.canvas;
     this._content = this.$.content;
     this._header = this.$.header;
+    this.__target = undefined;
     this._ctx = this._canvas.getContext('2d');
     this._content.style.paddingTop = '2px';
     this._content.style.paddingBottom = this.tipHeight + 'px';
@@ -124,9 +129,10 @@ class CasperTooltipDialog extends mixinBehaviors(IronOverlayBehavior, PolymerEle
     }
     this._resizeObserver = new ResizeObserver(entries => {
       for (let entry of entries) {
-        this.__updateBalloon(entry.contentRect.width, entry.contentRect.height + this.tipHeight + 2); // adding padding to height
+        this.__positionTooltip();
       }
     });
+    this.addEventListener('opened-changed', e => this.__onOpenedChanged(e));
     this._resizeObserver.observe(this._content);
   }
 
@@ -270,7 +276,6 @@ class CasperTooltipDialog extends mixinBehaviors(IronOverlayBehavior, PolymerEle
     this._ctx.restore();
   }
 
-
   /**
    * Resize the canvas to match the new width and then repaints the ballonish background
    *
@@ -282,16 +287,7 @@ class CasperTooltipDialog extends mixinBehaviors(IronOverlayBehavior, PolymerEle
     this._canvas.height = height * this._ratio;
     this._canvas.style.width = width + 'px';
     this._canvas.style.height = height + 'px';
-    this.__paintBalloon(width, height);
-  }
 
-  /**
-   * Paints the balloon shape on the canvas object
-   *
-   * @param {number} width balloon width in screen pixels
-   * @param {number} height balloon height in screen pixels
-   */
-  __paintBalloon (width, height) {
     // calculate and transform to canvas coordinates
     const sm           = 7; // shadow margin
     const headerHeight = this._headerHeight * this._ratio; // TODO hardcoded
@@ -324,15 +320,35 @@ class CasperTooltipDialog extends mixinBehaviors(IronOverlayBehavior, PolymerEle
   }
 
   open (target) {
+    if ( this.opened ) {
+      if (this.__target !== target) {
+        this.__target = target;
+        this.__positionTooltip();
+        // hack for safari
+        setTimeout(() => this.__positionTooltip(), 20);
+        setTimeout(() => this.__positionTooltip(), 150);
+      }
+    } else {
+      this.__target = target;
+      super.open();
+    }
+  }
+
+  __positionTooltip () {
+
+    if ( this.__target === undefined ) {
+      super.close();
+      return;
+    }
+
     let tipEdge;
     // .. grab the fitinto, target and content rects
     const crect  = this._content.getBoundingClientRect();
     const hrect  = this._header.getBoundingClientRect();
-    const trect  = target.getBoundingClientRect();
+    const trect  = this.__target.getBoundingClientRect();
     const frect  = (this.fitInto !== undefined ? this.fitInto : document.body).getBoundingClientRect();
     const width  = crect.width;
     const height = crect.height;
-
 
     // ... vertical layout fit above ou bellow position target ...
     if ( frect.bottom < trect.bottom + height ) {
@@ -367,9 +383,19 @@ class CasperTooltipDialog extends mixinBehaviors(IronOverlayBehavior, PolymerEle
     this._tipEdge = tipEdge;
     this._headerHeight = hrect.height ? hrect.height : 40;
     this.__updateBalloon(width, height);
-    super.open();
   }
 
+  __onOpenedChanged (event) {
+    if (event.detail.value === false) {
+      this.__target = undefined;
+      this.withBackdrop = undefined;
+    } else {
+      this.__positionTooltip();
+      // hack for safari
+      setTimeout(() => this.__positionTooltip(), 20);
+      setTimeout(() => this.__positionTooltip(), 150);
+    }
+  }
 }
 
 customElements.define(CasperTooltipDialog.is, CasperTooltipDialog);
