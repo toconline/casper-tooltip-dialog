@@ -7,15 +7,15 @@
  */
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
-import { IronOverlayBehavior } from '@polymer/iron-overlay-behavior/iron-overlay-behavior.js';
+import { CasperOverlayBehavior } from '@casper2020/casper-overlay-behavior/casper-overlay-behavior.js';
 
-class CasperTooltipDialog extends mixinBehaviors(IronOverlayBehavior, PolymerElement) {
+class CasperTooltipDialog extends mixinBehaviors(CasperOverlayBehavior, PolymerElement) {
 
-  static get is() {
+  static get is () {
     return 'casper-tooltip-dialog';
   }
 
-  static get template() {
+  static get template () {
     return html`<style>
         :host {
           position: absolute;
@@ -67,7 +67,7 @@ class CasperTooltipDialog extends mixinBehaviors(IronOverlayBehavior, PolymerEle
       </div>`
   }
 
-  static get properties() {
+  static get properties () {
     return {
       title: String,
       radius: {
@@ -136,9 +136,9 @@ class CasperTooltipDialog extends mixinBehaviors(IronOverlayBehavior, PolymerEle
     this._resizeObserver.observe(this._content);
   }
 
-  disconnectedCallback() {
+  disconnectedCallback () {
     super.disconnectedCallback();
-    if ( this._resizeObserver ) {
+    if (this._resizeObserver) {
       this._resizeObserver.unobserve(this._content);
     }
   }
@@ -147,17 +147,17 @@ class CasperTooltipDialog extends mixinBehaviors(IronOverlayBehavior, PolymerEle
    * Determine the device pixel ratio: 1 on classical displays 2 on retina/UHD displays
    */
   __setupPixelRatio () {
-    let devicePixelRatio  = window.devicePixelRatio || 1;
+    let devicePixelRatio = window.devicePixelRatio || 1;
     if (devicePixelRatio > 1.6) {
       devicePixelRatio = 2;
     } else {
       devicePixelRatio = 1;
     }
     let backingStoreRatio = this._ctx.webkitBackingStorePixelRatio ||
-                            this._ctx.mozBackingStorePixelRatio ||
-                            this._ctx.msBackingStorePixelRatio ||
-                            this._ctx.oBackingStorePixelRatio ||
-                            this._ctx.backingStorePixelRatio || 1;
+      this._ctx.mozBackingStorePixelRatio ||
+      this._ctx.msBackingStorePixelRatio ||
+      this._ctx.oBackingStorePixelRatio ||
+      this._ctx.backingStorePixelRatio || 1;
     this._ratio = devicePixelRatio / backingStoreRatio;
   }
 
@@ -239,7 +239,7 @@ class CasperTooltipDialog extends mixinBehaviors(IronOverlayBehavior, PolymerEle
     this._ctx.moveTo(tx - tw / 2, y + h);
     this._ctx.lineTo(tx, y + h + th);
     this._ctx.lineTo(tx + tw / 2, y + h);
-    this._ctx.arcTo(x + w, y + h, x + w, y+ h -r, r);
+    this._ctx.arcTo(x + w, y + h, x + w, y + h - r, r);
     this._ctx.lineTo(x + w, y);
     this._ctx.lineTo(x, y);
     this._ctx.arcTo(x, y + h, x + w + r, y + h, r);
@@ -256,22 +256,22 @@ class CasperTooltipDialog extends mixinBehaviors(IronOverlayBehavior, PolymerEle
   __paintAndStroke (fillColor, shadowColor, verticalClip) {
     const clip = new Path2D();
     this._ctx.save();
-    if ( verticalClip > 0) {
+    if (verticalClip > 0) {
       clip.rect(0, 0, this._canvas.width, verticalClip);
     } else {
       clip.rect(0, -verticalClip, this._canvas.width, this._canvas.height - verticalClip);
     }
     this._ctx.clip(clip);
-    this._ctx.fillStyle     = fillColor;
-    this._ctx.shadowBlur    = 5 * this._ratio;
+    this._ctx.fillStyle = fillColor;
+    this._ctx.shadowBlur = 5 * this._ratio;
     this._ctx.shadowOffsetX = 0;
     this._ctx.shadowOffsetY = 1 * this._ratio;
-    this._ctx.shadowColor   = shadowColor;
+    this._ctx.shadowColor = shadowColor;
     this._ctx.fill();
-    this._ctx.shadowBlur    = 0;
+    this._ctx.shadowBlur = 0;
     this._ctx.shadowOffsetX = 0;
     this._ctx.shadowOffsetY = 0;
-    this._ctx.shadowBlur    = 0;
+    this._ctx.shadowBlur = 0;
     this._ctx.stroke();
     this._ctx.restore();
   }
@@ -289,13 +289,13 @@ class CasperTooltipDialog extends mixinBehaviors(IronOverlayBehavior, PolymerEle
     this._canvas.style.height = height + 'px';
 
     // calculate and transform to canvas coordinates
-    const sm           = 7; // shadow margin
+    const sm = 7; // shadow margin
     const headerHeight = this._headerHeight * this._ratio; // TODO hardcoded
-    const radius       = this.radius    * this._ratio;
-    const tipHeight    = this.tipHeight * this._ratio;
-    const tipBase      = this.tipBase   * this._ratio;
-    const tipLocation  = Math.round(0 + width * this._arrowLoc * this._ratio);
-    width              = (width  - 2 * sm) * this._ratio;
+    const radius = this.radius * this._ratio;
+    const tipHeight = this.tipHeight * this._ratio;
+    const tipBase = this.tipBase * this._ratio;
+    const tipLocation = Math.round(0 + width * this._arrowLoc * this._ratio);
+    width = (width - 2 * sm) * this._ratio;
 
     this._ctx.strokeStyle = this.borderColor;
     this._ctx.lineWidth = this._ratio;
@@ -320,7 +320,7 @@ class CasperTooltipDialog extends mixinBehaviors(IronOverlayBehavior, PolymerEle
   }
 
   open (target) {
-    if ( this.opened ) {
+    if (this.opened) {
       if (this.__target !== target) {
         this.__target = target;
         this.__positionTooltip();
@@ -336,22 +336,22 @@ class CasperTooltipDialog extends mixinBehaviors(IronOverlayBehavior, PolymerEle
 
   __positionTooltip () {
 
-    if ( this.__target === undefined ) {
+    if (this.__target === undefined) {
       super.close();
       return;
     }
 
     let tipEdge;
     // .. grab the fitinto, target and content rects
-    const crect  = this._content.getBoundingClientRect();
-    const hrect  = this._header.getBoundingClientRect();
-    const trect  = this.__target.getBoundingClientRect();
-    const frect  = (this.fitInto !== undefined ? this.fitInto : document.body).getBoundingClientRect();
-    const width  = crect.width;
+    const crect = this._content.getBoundingClientRect();
+    const hrect = this._header.getBoundingClientRect();
+    const trect = this.__target.getBoundingClientRect();
+    const frect = (this.fitInto !== undefined ? this.fitInto : document.body).getBoundingClientRect();
+    const width = crect.width;
     const height = crect.height;
 
     // ... vertical layout fit above ou bellow position target ...
-    if ( frect.bottom < trect.bottom + height ) {
+    if (frect.bottom < trect.bottom + height) {
       this.style.top = trect.top - height + 'px';
       tipEdge = 'S';
       this._content.style.paddingTop = '2px';
@@ -365,10 +365,10 @@ class CasperTooltipDialog extends mixinBehaviors(IronOverlayBehavior, PolymerEle
 
     // ... horizontal layout so that it's stays inside the page ...
     const tooltipArrowX = trect.left + trect.width / 2;
-    let   tooltipLeft = tooltipArrowX - width / 2;
-    let   arrowLoc = 0.5;
+    let tooltipLeft = tooltipArrowX - width / 2;
+    let arrowLoc = 0.5;
 
-    if ( tooltipLeft < frect.left) {
+    if (tooltipLeft < frect.left) {
       tooltipLeft = frect.left;
       arrowLoc = (tooltipArrowX - tooltipLeft) / width;
     } else if (tooltipLeft + width > frect.left + frect.width) {
