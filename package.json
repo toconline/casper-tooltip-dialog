@@ -6,5 +6,5 @@
     "@casper2020/casper-overlay-behavior": "^1.x",
     "@polymer/polymer": "^3.0.0"
   },
-  "version": "1.0.0"
+  "version": "1.1.0"
 }
