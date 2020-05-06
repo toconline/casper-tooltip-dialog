@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@casper2020/casper-overlay-behavior@^1.x":
+"@cloudware-casper/casper-overlay-behavior@^1.x":
   version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@casper2020/casper-overlay-behavior/-/casper-overlay-behavior-1.0.0.tgz#a436b62700631fbbca0e72afa6d97859058813a7"
-  integrity sha512-mSzHjid+pMGdmEsWpuWPrKnglEtinqLIEeun/PBkWLMZBveewrcS7vbyVryUd8G5OiIHLW0DRW42De4GgnO5Uw==
+  resolved "https://npm.pkg.github.com/download/@cloudware-casper/casper-overlay-behavior/1.0.0/00e8d24f2599c0f15ae4500d03fc71fed252251f843d35ae9ee3a63995d01fad#af4a3084958aa01d7eb9623d4dc6121893cdc235"
+  integrity sha512-S7/iafhTc9ukWDOVNFMHWu9cIN78mbm/VP1JmKdS+2I7rXiKxep6W8DNfr7SsU7ix0qT38/uY8hSaqh/11gOLg==
   dependencies:
     "@polymer/iron-overlay-behavior" "^3.x"
 
@@ -41,13 +41,13 @@
     "@polymer/polymer" "^3.0.0"
 
 "@polymer/polymer@^3.0.0":
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/@polymer/polymer/-/polymer-3.3.1.tgz#9ad48992d2a96775f80b0673f3a615d6df8a3dfc"
-  integrity sha512-8KaB48tzyMjdsHdxo5KvCAaqmTe7rYDzQAoj/pyEfq9Fp4YfUaS+/xqwYj0GbiDAUNzwkmEQ7dw9cgnRNdKO8A==
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/@polymer/polymer/-/polymer-3.4.1.tgz#333bef25711f8411bb5624fb3eba8212ef8bee96"
+  integrity sha512-KPWnhDZibtqKrUz7enIPOiO4ZQoJNOuLwqrhV2MXzIt3VVnUVJVG5ORz4Z2sgO+UZ+/UZnPD0jqY+jmw/+a9mQ==
   dependencies:
     "@webcomponents/shadycss" "^1.9.1"
 
 "@webcomponents/shadycss@^1.9.1":
-  version "1.9.3"
-  resolved "https://registry.yarnpkg.com/@webcomponents/shadycss/-/shadycss-1.9.3.tgz#74ee4be13f5374724aecb3d2c2de77523e01ada9"
-  integrity sha512-fRuET+UGrH84hG0UF4iHbFqWZKUoan4/ki+iCOJ/vnKltPSHv/ZVbcA6sT/pRreznt8aKEGqN2KdHvgRxn4xjA==
+  version "1.9.6"
+  resolved "https://registry.yarnpkg.com/@webcomponents/shadycss/-/shadycss-1.9.6.tgz#a8c5db867e49200a05cf8d5008029c09b7861979"
+  integrity sha512-5fFjvP0jQJZoXK6YzYeYcIDGJ5oEsdjr1L9VaYLw5yxNd4aRz4srMpwCwldeNG0A6Hvr9igbG7fCsBeiiCXd7A==
