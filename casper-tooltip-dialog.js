@@ -122,11 +122,6 @@ class CasperTooltipDialog extends mixinBehaviors(CasperOverlayBehavior, PolymerE
 
   async connectedCallback () {
     super.connectedCallback();
-    if ('ResizeObserver' in window === false) {
-      // Loads polyfill asynchronously, only if required.
-      const module = await import('/node_modules/@juggle/resize-observer/lib/ResizeObserver.js');
-      window.ResizeObserver = module.ResizeObserver;
-    }
     this._resizeObserver = new ResizeObserver(entries => {
       for (let entry of entries) {
         this.__positionTooltip();
