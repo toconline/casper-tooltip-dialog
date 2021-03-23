@@ -82,9 +82,6 @@ class CasperTooltipDialog extends mixinBehaviors(CasperOverlayBehavior, PolymerE
         type: Number,
         value: 20
       },
-      fitInto: {
-        type: Element
-      },
       headerColor: {
         type: String,
         value: '#ccc'
@@ -267,7 +264,7 @@ class CasperTooltipDialog extends mixinBehaviors(CasperOverlayBehavior, PolymerE
     this._ctx.shadowOffsetX = 0;
     this._ctx.shadowOffsetY = 0;
     this._ctx.shadowBlur = 0;
-    this._ctx.stroke();
+    // this._ctx.stroke();
     this._ctx.restore();
   }
 
@@ -341,7 +338,7 @@ class CasperTooltipDialog extends mixinBehaviors(CasperOverlayBehavior, PolymerE
     const crect = this._content.getBoundingClientRect();
     const hrect = this._header.getBoundingClientRect();
     const trect = this.__target.getBoundingClientRect();
-    const frect = (this.fitInto !== undefined ? this.fitInto : document.body).getBoundingClientRect();
+    const frect = document.body.getBoundingClientRect();
     const width = crect.width;
     const height = crect.height;
 
