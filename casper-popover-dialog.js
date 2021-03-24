@@ -34,34 +34,7 @@ class CasperPopoverDialog extends PolymerElement {
   static get template () {
     return html`
       <style>
-        :host {
-          overflow: hidden;
-          background: var(--primary-background-color, white);
-          border-radius: var(--radius-primary, 6px);
-          box-shadow: rgba(0, 0, 0, 0.24) -2px 5px 12px 0px,
-                      rgba(0, 0, 0, 0.12) 0px 0px 12px 0px;
-          max-width: 300px;
-          width: 280px;
-          max-height: 300px;
-          height: 146px;
-        }
-
-        paper-listbox {
-          border-radius: var(--radius-primary, 6px);
-          padding: 0px;
-        }
-
         .header {
-          background: var(--primary-color);
-          color: white;§
-          padding: 7px 0;
-        }
-
-        .header:focus {
-          outline: none;
-        }
-
-        .header-content {
           color: white;
           padding: 7px 0;
           width: 90%;
@@ -84,7 +57,6 @@ class CasperPopoverDialog extends PolymerElement {
         .buttons-container {
           display: flex;
           width: 280px;
-          margin: auto;
           justify-content: flex-end;
           margin-top: 10px;
           padding-bottom: 7px;
@@ -110,14 +82,10 @@ class CasperPopoverDialog extends PolymerElement {
           color: white;
           background: var(--primary-color);
         }
-
-        #ctd {
-          width: 400px;
-        }
       </style>
 
       <casper-tooltip-dialog id="ctd">
-        <div slot="header" class="header-content">
+        <div slot="header" class="header">
           <span>[[headerText]]</span>
           <casper-icon class="close" icon="fa-light:times-circle" on-click="close"></casper-icon>
         </div>
@@ -144,8 +112,6 @@ class CasperPopoverDialog extends PolymerElement {
     this._dialog.headerColor = getComputedStyle(document.body).getPropertyValue('--primary-color').trim();
     this._dialog.bodyColor = 'white';
 
-    // TODO: needs to listen to ENTER to accept
-
     this.addEventListener('resolve-popover-dialog', (event) => this._resolve && this._resolve({ detail: event.detail }) );
     this.addEventListener('close-popover-dialog', () => this._reject && this._reject() );
 
@@ -155,9 +121,15 @@ class CasperPopoverDialog extends PolymerElement {
           this.$.descriptionInput.focus();
         });
       } else if (event && event.detail && event.detail.value === false) {
+        // Clears error message when the user closes the popover
+        this.$.descriptionInput.invalid = false;
+        this.$.descriptionInput.errorMessage = '';
+
         this.dispatchEvent(new CustomEvent('close-popover-dialog', { bubbles: true, composed: true }));
       }
     });
+
+    this.$.descriptionInput.addEventListener('keypress', (event) => {this._keyPressed(event)});
   }
 
   connection (target) {
@@ -199,6 +171,13 @@ class CasperPopoverDialog extends PolymerElement {
   }
 
   _acceptPressed () {
+    if (!!this.inputValue === false) {
+      const input = this.$.descriptionInput;
+      input.invalid = true;
+      input.errorMessage = 'Este campo não pode estar em branco.';
+      return;
+    }
+
     this.responseObject.inputValue = this.inputValue;
 
     this.dispatchEvent(new CustomEvent('resolve-popover-dialog', {
@@ -208,6 +187,18 @@ class CasperPopoverDialog extends PolymerElement {
     }));
 
     this.close()
+  }
+
+  _keyPressed (event) {
+    if (event && event.key === 'Enter' && event.currentTarget && event.currentTarget.id === 'descriptionInput') {
+      this._acceptPressed();
+    }
+
+    // Clears error message when the user presses any key other than Enter
+    if (event && event.key !== 'Enter' && event.currentTarget && event.currentTarget.id === 'descriptionInput') {
+      this.$.descriptionInput.invalid = false;
+      this.$.descriptionInput.errorMessage = '';
+    }
   }
 
 }
