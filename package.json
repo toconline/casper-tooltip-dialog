@@ -6,7 +6,7 @@
     "@cloudware-casper/casper-overlay-behavior": "^1.x",
     "@polymer/polymer": "^3.0.0"
   },
-  "version": "1.4.0",
+  "version": "1.4.1",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   }
