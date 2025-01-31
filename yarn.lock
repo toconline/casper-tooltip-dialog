@@ -2,13 +2,6 @@
 # yarn lockfile v1
 
 
-"@cloudware-casper/casper-overlay-behavior@^1.x":
-  version "1.0.0"
-  resolved "https://npm.pkg.github.com/download/@cloudware-casper/casper-overlay-behavior/1.0.0/00e8d24f2599c0f15ae4500d03fc71fed252251f843d35ae9ee3a63995d01fad#af4a3084958aa01d7eb9623d4dc6121893cdc235"
-  integrity sha512-S7/iafhTc9ukWDOVNFMHWu9cIN78mbm/VP1JmKdS+2I7rXiKxep6W8DNfr7SsU7ix0qT38/uY8hSaqh/11gOLg==
-  dependencies:
-    "@polymer/iron-overlay-behavior" "^3.x"
-
 "@polymer/iron-a11y-keys-behavior@^3.0.0-pre.26":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@polymer/iron-a11y-keys-behavior/-/iron-a11y-keys-behavior-3.0.1.tgz#2868ea72912d2007ffab4734684a91f5aac49b84"
@@ -46,6 +39,13 @@
   integrity sha512-KPWnhDZibtqKrUz7enIPOiO4ZQoJNOuLwqrhV2MXzIt3VVnUVJVG5ORz4Z2sgO+UZ+/UZnPD0jqY+jmw/+a9mQ==
   dependencies:
     "@webcomponents/shadycss" "^1.9.1"
+
+"@toconline/casper-overlay-behavior@^1.x":
+  version "1.0.0"
+  resolved "https://npm.pkg.github.com/download/@toconline/casper-overlay-behavior/1.0.0/33f484114b22907403eb95902e3b1be7f56a14d8#33f484114b22907403eb95902e3b1be7f56a14d8"
+  integrity sha512-bbkOQv8a0rJcjRw0YJBHilBs87nY6BGvIvp16lJPqsMYktr9teaNwLlxhnDw82o8ZfWfUFks9GOjYSoO4P8HYg==
+  dependencies:
+    "@polymer/iron-overlay-behavior" "^3.x"
 
 "@webcomponents/shadycss@^1.9.1":
   version "1.9.6"

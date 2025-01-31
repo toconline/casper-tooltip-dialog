@@ -1,9 +1,9 @@
 {
-  "name": "@cloudware-casper/casper-tooltip-dialog",
+  "name": "@toconline/casper-tooltip-dialog",
   "description": "Tooltipish dialog ",
   "main": "casper-tooltip-dialog.js",
   "dependencies": {
-    "@cloudware-casper/casper-overlay-behavior": "^1.x",
+    "@toconline/casper-overlay-behavior": "^1.x",
     "@polymer/polymer": "^3.0.0"
   },
   "version": "1.4.1",
